@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Написать Kirin</title>
+<meta name="description" content="Напиши Kirin лично в Telegram.">
+<link rel="icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&family=Kaushan+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Переходник в личные сообщения Telegram (как страница Substack в оригинале) -->
+<main class="dm">
+  <div class="dm-box">
+    <img class="dm-ava" src="img/avatar.jpg" alt="Kirin">
+    <h1 class="dm-name">Kirin</h1>
+    <p class="dm-desc">В треках я рассказываю свою историю. Здесь — можешь написать мне лично. Идеи, коллабы, вопросы.</p>
+
+    <form class="dm-row" id="dm-form">
+      <input type="text" id="dm-text" placeholder="Напиши сообщение…" aria-label="Сообщение" maxlength="1000" autocomplete="off">
+      <button type="submit">Написать</button>
+    </form>
+
+    <p class="dm-note">Нажимая «Написать», ты перейдёшь в личные сообщения <a href="#" data-link="telegramDm">Kirin в Telegram</a>. Текст сообщения скопируется — просто вставь его в чат.</p>
+
+    <a href="index.html" class="dm-later" id="dm-later">Не сейчас <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></a>
+
+    <div><a href="index.html" class="brand dm-brand" aria-label="Kirin — на главную"><span class="name">Kirin</span><img src="img/logo.png" alt=""></a></div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/config.js"></script>
+<script src="js/site.js"></script>
+<script>
+(function(){
+  const form=document.getElementById('dm-form'), text=document.getElementById('dm-text');
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const url=SITE.links.telegramDm||SITE.links.telegram, msg=text.value.trim();
+    if(msg){try{await navigator.clipboard.writeText(msg)}catch(_){}}
+    window.open(url,'_blank','noopener');
+  });
+  /* «Не сейчас» — вернуться туда, откуда пришли (если это наш сайт) */
+  document.getElementById('dm-later').addEventListener('click',e=>{
+    if(document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back()}
+  });
+})();
+</script>
+</body>
+</html>
